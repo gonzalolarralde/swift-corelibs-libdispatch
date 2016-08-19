@@ -117,7 +117,7 @@ _dispatch_unfair_lock_wake(uint32_t *uaddr, uint32_t flags)
 #pragma mark - futex wrappers
 #if HAVE_FUTEX
 #include <sys/time.h>
-#include <syscall.h>
+// #include <syscall.h>
 
 DISPATCH_ALWAYS_INLINE
 static inline int

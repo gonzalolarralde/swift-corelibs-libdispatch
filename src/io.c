@@ -1789,13 +1789,13 @@ _dispatch_stream_cleanup_operations(dispatch_stream_t stream,
 	dispatch_operation_t op, tmp;
 	typeof(*stream->operations) *operations;
 	operations = &stream->operations[DISPATCH_IO_RANDOM];
-	TAILQ_FOREACH_SAFE(op, operations, operation_list, tmp) {
+	TAILQ_FOREACH(op, operations, operation_list) {
 		if (!channel || op->channel == channel) {
 			_dispatch_stream_complete_operation(stream, op);
 		}
 	}
 	operations = &stream->operations[DISPATCH_IO_STREAM];
-	TAILQ_FOREACH_SAFE(op, operations, operation_list, tmp) {
+	TAILQ_FOREACH(op, operations, operation_list) {
 		if (!channel || op->channel == channel) {
 			_dispatch_stream_complete_operation(stream, op);
 		}
@@ -1811,7 +1811,7 @@ _dispatch_disk_cleanup_operations(dispatch_disk_t disk, dispatch_io_t channel)
 {
 	// On pick queue
 	dispatch_operation_t op, tmp;
-	TAILQ_FOREACH_SAFE(op, &disk->operations, operation_list, tmp) {
+	TAILQ_FOREACH(op, &disk->operations, operation_list) {
 		if (!channel || op->channel == channel) {
 			_dispatch_disk_complete_operation(disk, op);
 		}

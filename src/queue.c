@@ -976,6 +976,7 @@ _dispatch_get_mach_host_port(void)
 #include <unistd.h>
 #include <sys/syscall.h>
 
+/*
 #ifdef SYS_gettid
 DISPATCH_ALWAYS_INLINE
 static inline pid_t
@@ -986,7 +987,8 @@ gettid(void)
 #else
 #error "SYS_gettid unavailable on this system"
 #endif
-
+#endif
+*/
 #define _tsd_call_cleanup(k, f)  do { \
 		if ((f) && tsd->k) ((void(*)(void*))(f))(tsd->k); \
     } while (0)
@@ -2244,7 +2246,7 @@ _dispatch_queue_specific_queue_dispose(dispatch_queue_specific_queue_t dqsq)
 {
 	dispatch_queue_specific_t dqs, tmp;
 
-	TAILQ_FOREACH_SAFE(dqs, &dqsq->dqsq_contexts, dqs_list, tmp) {
+	TAILQ_FOREACH(dqs, &dqsq->dqsq_contexts, dqs_list) {
 		if (dqs->dqs_destructor) {
 			dispatch_async_f(_dispatch_get_root_queue(
 					_DISPATCH_QOS_CLASS_DEFAULT, false), dqs->dqs_ctxt,

@@ -245,7 +245,8 @@ DISPATCH_EXPORT DISPATCH_NOTHROW void dispatch_atfork_child(void);
 #include <sys/event.h>
 #include <sys/mount.h>
 #include <sys/queue.h>
-#include <sys/sysctl.h>
+// #include <sys/sysctl.h>
+#include <unistd.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/mman.h>
@@ -256,8 +257,8 @@ DISPATCH_EXPORT DISPATCH_NOTHROW void dispatch_atfork_child(void);
 #endif
 
 #ifdef __BLOCKS__
-#include <Block_private.h>
-#include <Block.h>
+#include "/root/swift-source-android/swift-corelibs-foundation/closure/Block_private.h"
+#include "/root/swift-source-android/swift-corelibs-foundation/closure/Block.h"
 #endif /* __BLOCKS__ */
 
 #include <assert.h>
@@ -266,7 +267,7 @@ DISPATCH_EXPORT DISPATCH_NOTHROW void dispatch_atfork_child(void);
 #include <fcntl.h>
 #endif
 #include <limits.h>
-#include <search.h>
+// #include <search.h>
 #if USE_POSIX_SEM
 #include <semaphore.h>
 #endif
@@ -360,6 +361,7 @@ DISPATCH_EXPORT DISPATCH_NOTHROW void dispatch_atfork_child(void);
 #define TRASHIT(x) do {(x) = (void *)-1;} while (0)
 #endif
 #endif // DISPATCH_DEBUG
+#define TRASHIT(x) do {(x) = (void *)-1;} while (0)
 #define _TAILQ_TRASH_ENTRY(elm, field) do { \
 			TRASHIT((elm)->field.tqe_next); \
 			TRASHIT((elm)->field.tqe_prev); \

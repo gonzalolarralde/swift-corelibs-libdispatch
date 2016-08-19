@@ -551,7 +551,7 @@ __OSX_AVAILABLE_BUT_DEPRECATED(__MAC_10_6,__MAC_10_9,__IPHONE_4_0,__IPHONE_6_0)
 DISPATCH_EXPORT DISPATCH_NONNULL2 DISPATCH_NOTHROW
 __attribute__((__format__(printf,2,0)))
 void
-dispatch_debugv(dispatch_object_t object, const char *message, va_list ap);
+dispatch_debugv(dispatch_object_t object, const char *message, __builtin_va_list ap);
 
 __END_DECLS
 

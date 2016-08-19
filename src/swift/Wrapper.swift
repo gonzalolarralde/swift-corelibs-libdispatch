@@ -91,17 +91,17 @@ public class DispatchIO : DispatchObject {
 	}
 
 	internal init(__type: UInt, fd: Int32, queue: DispatchQueue,
-				  handler: (_ error: Int32) -> Void) {
+				  handler: @escaping (_ error: Int32) -> Void) {
 		__wrapped = dispatch_io_create(__type, fd, queue.__wrapped, handler)
 	}
 
 	internal init(__type: UInt, path: UnsafePointer<Int8>, oflag: Int32,
-				  mode: mode_t, queue: DispatchQueue, handler: (_ error: Int32) -> Void) {
+				  mode: mode_t, queue: DispatchQueue, handler: @escaping (_ error: Int32) -> Void) {
 		__wrapped = dispatch_io_create_with_path(__type, path, oflag, mode, queue.__wrapped, handler)
 	}
 
 	internal init(__type: UInt, io: DispatchIO,
-				  queue: DispatchQueue, handler: (_ error: Int32) -> Void) {
+				  queue: DispatchQueue, handler: @escaping (_ error: Int32) -> Void) {
 		__wrapped = dispatch_io_create_with_io(__type, io.__wrapped, queue.__wrapped, handler)
 	}
 
@@ -113,7 +113,7 @@ public class DispatchIO : DispatchObject {
 		_swift_dispatch_release(wrapped())
 	}
 
-	public func barrier(execute: () -> ()) {
+	public func barrier(execute: @escaping () -> ()) {
 		dispatch_io_barrier(self.__wrapped, execute)
 	}
 
@@ -184,7 +184,7 @@ extension DispatchSource : DispatchSourceMachSend,
 }
 #endif
 
-#if !os(Linux)
+#if !os(Linux) && !os(Android)
 extension DispatchSource : DispatchSourceProcess,
 	DispatchSourceFileSystemObject {
 }
@@ -268,7 +268,7 @@ public protocol DispatchSourceMemoryPressure : DispatchSourceProtocol {
 }
 #endif
 
-#if !os(Linux)
+#if !os(Linux) && !os(Android)
 public protocol DispatchSourceProcess : DispatchSourceProtocol {
 	var handle: pid_t { get }
 
@@ -298,7 +298,7 @@ public protocol DispatchSourceTimer : DispatchSourceProtocol {
 	func scheduleRepeating(wallDeadline: DispatchWallTime, interval: Double, leeway: DispatchTimeInterval)
 }
 
-#if !os(Linux)
+#if !os(Linux) && !os(Android)
 public protocol DispatchSourceFileSystemObject : DispatchSourceProtocol {
 	var handle: Int32 { get }
 

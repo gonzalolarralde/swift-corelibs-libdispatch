@@ -31,7 +31,7 @@
 #error "Please #include <dispatch/private.h> instead of this file directly."
 #include <dispatch/base.h> // for HeaderDoc
 #endif
-
+#include <pthread.h>
 DISPATCH_ASSUME_NONNULL_BEGIN
 
 __BEGIN_DECLS

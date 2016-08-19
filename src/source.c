@@ -1640,7 +1640,7 @@ _dispatch_kevent_merge(_dispatch_kevent_qos_s *ke)
 	dispatch_kevent_t dk = (void*)ke->udata;
 	dispatch_source_refs_t dri, dr_next;
 
-	TAILQ_FOREACH_SAFE(dri, &dk->dk_sources, dr_list, dr_next) {
+	TAILQ_FOREACH(dri, &dk->dk_sources, dr_list) {
 		_dispatch_source_merge_kevent(_dispatch_source_from_refs(dri), ke);
 	}
 }
@@ -2035,9 +2035,9 @@ _dispatch_kevent_qos_s _dispatch_kevent_timeout[] = {
 	DISPATCH_KEVENT_TIMEOUT_INIT(MACH, BACKGROUND, NOTE_BACKGROUND),
 };
 #define DISPATCH_KEVENT_TIMEOUT_COUNT \
-		((sizeof(_dispatch_kevent_timeout) / sizeof(_dispatch_kevent_timeout[0])))
-static_assert(DISPATCH_KEVENT_TIMEOUT_COUNT == DISPATCH_TIMER_INDEX_COUNT - 1,
-		"should have a kevent for everything but disarm (ddt assumes this)");
+		(sizeof(_dispatch_kevent_timeout) / sizeof(_dispatch_kevent_timeout[0]))
+// static_assert(DISPATCH_KEVENT_TIMEOUT_COUNT == DISPATCH_TIMER_INDEX_COUNT - 1,
+// 		"should have a kevent for everything but disarm (ddt assumes this)");
 
 #define DISPATCH_KEVENT_COALESCING_WINDOW_INIT(qos, ms) \
 		[DISPATCH_TIMER_QOS_##qos] = 2ull * (ms) * NSEC_PER_MSEC
@@ -3822,7 +3822,7 @@ _dispatch_mach_notify_merge(mach_port_t name, uint32_t flag, bool final)
 		unreg = _dispatch_kevent_resume(dk, flag, 0);
 	}
 	DISPATCH_MACH_NOTIFICATION_ARMED(dk) = 0;
-	TAILQ_FOREACH_SAFE(dri, &dk->dk_sources, dr_list, dr_next) {
+	TAILQ_FOREACH(dri, &dk->dk_sources, dr_list) {
 		dispatch_source_t dsi = _dispatch_source_from_refs(dri);
 		if (dx_type(dsi) == DISPATCH_MACH_CHANNEL_TYPE) {
 			dispatch_mach_t dm = (dispatch_mach_t)dsi;

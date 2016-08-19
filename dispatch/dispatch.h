@@ -98,7 +98,7 @@
 
 #include <os/object.h>
 #include <dispatch/base.h>
-#include <dispatch/time.h>
+#include <dispatch/dtime.h>
 #include <dispatch/object.h>
 #include <dispatch/queue.h>
 #include <dispatch/block.h>
