@@ -368,6 +368,17 @@ DISPATCH_EXPORT DISPATCH_NOTHROW void dispatch_atfork_child(void);
 			TRASHIT((head)->tqh_last); \
 		} while (0)
 
+#ifndef TAILQ_FOREACH_SAFE
+#	define TAILQ_FOREACH_SAFE(var, head, field, tvar)                      \
+    	    for ((var) = TAILQ_FIRST((head));                              \
+        	    (var) && ((tvar) = TAILQ_NEXT((var), field), 1);           \
+            	(var) = (tvar))
+#endif /* TAILQ_FOREACH_SAFE */
+
+#ifndef TRASHIT
+#	define TRASHIT(x)      do {(x) = (void *)-1;} while (0)
+#endif /* TRASHIT */
+
 DISPATCH_EXPORT DISPATCH_NOINLINE
 void _dispatch_bug(size_t line, long val);
 
