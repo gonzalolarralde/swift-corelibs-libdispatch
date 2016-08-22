@@ -71,7 +71,9 @@ typedef void (*dispatch_mach_msg_destructor_t)(void*);
 #endif
 
 // SIZE_T_MAX should not be hardcoded like this here.
+#ifndef SIZE_T_MAX
 #define SIZE_T_MAX (0x7fffffff)
+#endif
 
 // Define to 0 the NOTE_ values that are not present on Linux.
 // Revisit this...would it be better to ifdef out the uses instead??
