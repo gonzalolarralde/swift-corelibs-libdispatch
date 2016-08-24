@@ -462,6 +462,13 @@ AC_COMPILE_IFELSE(
 )
 
 #
+# Add option to avoid building tests
+#
+AC_ARG_ENABLE([build-tests],
+  [AS_HELP_STRING([--disable-build-tests], [Disable tests compilation])])
+AM_CONDITIONAL(BUILD_TESTS, [test "x$enable_build_tests" != "xno"])
+
+#
 # Generate Makefiles.
 #
 AC_CONFIG_FILES([Makefile dispatch/Makefile man/Makefile os/Makefile private/Makefile src/Makefile tests/Makefile])
