@@ -66,8 +66,8 @@ DISPATCH_CFLAGS+=-DDISPATCH_DEBUG=1
 endif
 
 if ANDROID
-CANDROID_FLAGS= -I$(top_srcdir)/src/shims/android -L$(top_srcdir)/src/shims/android
-CXXANDROID_FLAGS= -I$(top_srcdir)/src/shims/android -L$(top_srcdir)/src/shims/android
+CANDROID_FLAGS= -I$(top_srcdir)/src/shims/android
+CXXANDROID_FLAGS= -I$(top_srcdir)/src/shims/android
 ANDROID_LIBS= -L$(top_srcdir)/src/shims/android
 endif
 
