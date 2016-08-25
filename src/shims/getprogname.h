@@ -24,7 +24,7 @@
 
 #if !HAVE_GETPROGNAME
 
-#if __ANDROID__
+#ifdef __ANDROID__
 extern const char *__progname;
 #endif /* __ANDROID */)
 
@@ -33,7 +33,7 @@ getprogname(void)
 {
 # if HAVE_DECL_PROGRAM_INVOCATION_SHORT_NAME
 	return program_invocation_short_name;
-# elif __ANDROID__
+# elif defined(__ANDROID__)
 	return __progname;
 # else
 #   error getprogname(3) is not available on this platform
