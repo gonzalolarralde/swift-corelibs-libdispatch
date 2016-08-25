@@ -154,9 +154,8 @@
 #define DISPATCH_PURE_C 1
 #endif
 
-#include <pthread.h>
-
 /* private.h must be included last to avoid picking up installed headers. */
+#include <pthread.h>
 #include "os/object_private.h"
 #include "queue_private.h"
 #include "source_private.h"
