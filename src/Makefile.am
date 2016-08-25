@@ -41,6 +41,7 @@ libdispatch_la_SOURCES=		\
 	trace.h					\
 	voucher_internal.h		\
 	firehose/firehose_internal.h \
+	shims/android_stubs.h	\
 	shims/atomic.h			\
 	shims/atomic_sfb.h		\
 	shims/getprogname.h		\
