@@ -103,7 +103,7 @@ AC_ARG_ENABLE([android],
   # FIXME: there should be a more elegant way to do this
   ac_configure_args=`echo $ac_configure_args | sed -e "s/ 'CFLAGS='//" -e "s/ 'CXXFLAGS='//"`
   # CFLAGS, CXXFLAGS and LIBS needs to be passed to libkqueue and libpwq
-  ac_configure_args="$ac_configure_args 'CFLAGS=$CFLAGS' 'CXXFLAGS=$CXXFLAGS' 'LIBS=$LIBS'"
+  ac_configure_args="$ac_configure_args --enable-bionic-libc 'CFLAGS=$CFLAGS' 'CXXFLAGS=$CXXFLAGS' 'LIBS=$LIBS'"
 ], [android=false])
 AM_CONDITIONAL(ANDROID, $android)
 
