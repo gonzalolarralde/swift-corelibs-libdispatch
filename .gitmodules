@@ -1,6 +1,6 @@
 [submodule "libpwq"]
 	path = libpwq
-	url = https://github.com/mheily/libpwq.git
+	url = https://github.com/gonzalolarralde/libpwq.git
 [submodule "libkqueue"]
 	path = libkqueue
 	url = https://github.com/mheily/libkqueue.git
