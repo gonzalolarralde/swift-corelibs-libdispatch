@@ -92,11 +92,12 @@ AC_ARG_ENABLE([android],
 
   sysroot=${android_ndk}/platforms/android-${android_api_level}/arch-${arch}
   toolchain=${android_ndk}/toolchains/${host_alias}-${android_ndk_gcc_version}/prebuilt/linux-${build_cpu}
+  atomic_location=${toolchain}/${host_alias}/lib
 
   CFLAGS="$CFLAGS -target ${host_alias} --sysroot=${sysroot} -B${toolchain}/${host_alias}/bin"
   CXXFLAGS="$CXXFLAGS -target ${host_alias} --sysroot=${sysroot} -B${toolchain}/${host_alias}/bin"
   SWIFTC_FLAGS="-target ${host} -sdk ${sysroot} -L${toolchain}/lib/gcc/${host_alias}/${android_ndk_gcc_version}.x"
-  LIBS="$LIBS -L${toolchain}/lib/gcc/${host_alias}/${android_ndk_gcc_version}.x"
+  LIBS="$LIBS -L${toolchain}/lib/gcc/${host_alias}/${android_ndk_gcc_version}.x -L${atomic_location}"
   LDFLAGS="$LDFLAGS -Wc,'-target','${host_alias}','-B${toolchain}/${host_alias}/bin'"
 
   # FIXME: empty CFLAGS and CXXFLAGS are assumed for this to work.
@@ -186,25 +187,25 @@ AC_ARG_WITH([swift-toolchain],
 	    ;;
       linux*)
 	    os_string="linux"
-	    case $target_cpu in
+	    case $host_cpu in
 		    armv7l*)
-			target_cpu="armv7"
+			host_cpu="armv7"
 			;;
 			*)
             esac
 	    ;;
 	  *)
-        os_string=$target_os
+        os_string=$host_os
 		;;
 	esac
-   SWIFT_LIBDIR="$swift_toolchain_path/lib/swift/$os_string/$target_cpu"
+   SWIFT_LIBDIR="$swift_toolchain_path/lib/swift/$os_string/$host_cpu"
    have_swift=true],
   [have_swift=false]
 )
 AM_CONDITIONAL(HAVE_SWIFT, $have_swift)
 AC_SUBST([SWIFTC])
-AC_SUBST([SWIFTC_FLAGS])
 AC_SUBST([SWIFT_LIBDIR])
+AC_SUBST([SWIFTC_FLAGS])
 AC_SUBST([OS_STRING], ["$os_string"])
 
 #

@@ -84,6 +84,11 @@ AM_OBJCFLAGS=$(DISPATCH_CFLAGS) $(CBLOCKS_FLAGS)
 AM_CXXFLAGS=$(PTHREAD_WORKQUEUE_CFLAGS) $(DISPATCH_CFLAGS) $(CXXBLOCKS_FLAGS)
 AM_OBJCXXFLAGS=$(DISPATCH_CFLAGS) $(CXXBLOCKS_FLAGS)
 
+# Atomic is distributed as an sstatic library by Android SDK
+if ANDROID
+  ANDROID_LIBS=-latomic
+endif
+
 if HAVE_PTHREAD_WORKQUEUES
   PTHREAD_WORKQUEUE_LIBS=-lpthread_workqueue
   PTHREAD_WORKQUEUE_CFLAGS=
@@ -99,7 +104,7 @@ endif
 endif
 
 libdispatch_la_LDFLAGS=-avoid-version
-libdispatch_la_LIBADD=$(PTHREAD_WORKQUEUE_LIBS) $(BSD_OVERLAY_LIBS) $(BLOCKS_RUNTIME_LIBS)
+libdispatch_la_LIBADD=$(PTHREAD_WORKQUEUE_LIBS) $(BSD_OVERLAY_LIBS) $(BLOCKS_RUNTIME_LIBS) ${ANDROID_LIBS}
 
 if HAVE_DARWIN_LD
 libdispatch_la_LDFLAGS+=-Wl,-compatibility_version,1 \
@@ -162,6 +167,9 @@ if DISPATCH_ENABLE_OPTIMIZATION
 SWIFTC_FLAGS+=-O
 endif
 
+SWIFT_LIBS=-L$(SWIFT_LIBDIR) -lswiftCore
+AM_LDFLAGS=-rpath $(SWIFT_LIBDIR)
+
 # this saves the object file, then tricks libtool into generating a .lo file and
 # then moves the object file back in the places libtool expects them to be for
 # the PIC and non-PIC case.
@@ -181,7 +189,7 @@ libdispatch_la_SOURCES+=swift/DispatchStubs.cc
 EXTRA_libdispatch_la_SOURCES+=$(SWIFT_SRC_FILES)
 
 EXTRA_libdispatch_la_DEPENDENCIES+=$(SWIFT_OBJ_FILES) $(SWIFT_LIBTOOL_OBJ_FILES) $(abs_builddir)/swift/Dispatch.swiftmodule
-libdispatch_la_LIBADD+=$(SWIFT_LIBTOOL_OBJ_FILES)
+libdispatch_la_LIBADD+=$(SWIFT_LIBTOOL_OBJ_FILES) $(SWIFT_LIBS)
 
 SWIFT_GEN_FILES=	\
 	$(abs_builddir)/swift/Dispatch.swiftmodule \
